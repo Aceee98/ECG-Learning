@@ -1,0 +1,45 @@
+
+The heart has 4 important chambers; the blood flow works as follows:
+Right atrium – gets deoxygenated blood from the body, passes it to the right ventricle.
+Right ventricle – Pumps blood from the right atrium to the lungs to get more oxygen.
+Left atrium – receives oxygenated blood and passes it to the left ventricle.
+Left ventricle – pumps oxygenated blood to the body.
+While each chamber tends to follow a simplistic high-level role, they are all very important in ECGs, the left ventricle for example contracts massively as it needs enough power to pump the blood around the body, hence why ECG tend to show a big spike.
+
+ECGs tend to have a number of different leads, standard ECGs usually have up to 12, with 3 main categories, limb leads (leads I, II, III), Augmented limb leads (aVR, aVL, aVF), chest leads (V1-V6), each lead positioned in its own designated area around the body to look at electrical signals around different parts of the body. Different angles provide both a more stable and precise experience due to having more graphs to compare with.
+
+PQRST complexes are representations of what we can see on the graphs, P is atrial depolarisation, QRS is ventricular depolarisation and T is ventricular repolarisation.
+P shows the atria contracting (which pushes blood into the ventricles).
+QRS shows the ventricles contracting (which pumps blood to the lungs/body), which of course takes the most electrical activity, hence why QRS shows the “R peaks”, the largest spikes in a typical, regular ECG.
+T shows the ventricles “resetting” to redo the cycle.
+
+Noise is a very common occurrence in most, if not all ECG process’, which has a number of causes
+Baseline wander – this is a type of noise that is usually from minimal actions that can be reduced but usually not rid of, such as breathing, or the person moving, but this noise can usually be massively reduced using a high-pass filter.
+Powerline interference – this is a type of noise that’s introduced by electrical activity being picked up externally, be that from the ECG machine itself, the powerline, wires, etc. But due to electricity being at a set frequency, it’s usually a lot easier to reduce/remove powerline interference by using a notch filter that can remove 50hz noise.
+Gaussian noise is a rather simple type of noise that is produced as a side effect of the nature of electrons, electrons move and vibrate, which causes very small spikes in the graph and random fuzziness, which is Gaussian noise.
+You can reduce, remove or help against gaussian noise by averaging ECGs, using a low-pass filter or SNR (signal to noise ratio).
+
+There are a number of important filters, each which fill their respective role in helping produce stable and comprehensive ECGs while keeping them accurate. 
+A high pass filter is a type of filter that only lets high frequencies through, an example being it can remove all frequencies under 0.5hz.
+On the contrary, a low pass filter is a type of filter that only lets low frequencies through, example being removing all frequencies higher than 80hz
+A band-pass filter is kind of like a combination of a high pass and a low pass filter, you set boundaries such as 0.5hz and 40hz, and it will only allow frequencies between those boundaries in.
+A notch filter works similarly to the rest but rather than cutting off more than or less than a certain number, it cuts out a specific frequency, such as only cutting 50hz.
+SNR stands for signal to noise ratio; SNR is simply how loud the signal is compared to the background noise.
+High SNR means the signal is much louder than the background noise, which is good.
+On the other hand, low snr means the signal is quieter than the background noise, which is bad as it means there is a messy recording.
+R peaks, as mentioned, are the tallest parts of most ECGs, therefore, using these R-to-R peaks, we can determine the RR interval, which is essentially just a way to verify the heart rate is beating at an acceptable pace. If a person had a heartrate of 60BPM, the RR interval would be 1 second.
+Arrythmias can be seen by noticing irregularities or abnormalities from the RR interval.
+Tachycardia is when the heartrate is over 100BPM (typically) at rest.
+Bradycardia is when the heart rate is under 60BPM (typically) at rest.
+There are exceptions and context matters as an athletic person may have a drastically different acceptable/normal heartrate than a normal person.
+The Pan-Tompkins algorithm is a well known algorithm that is also quite old, but works extremely well to this day to detect QRS complexes, the algorithm has a few steps
+-	Bandpass
+-	Differentiate
+-	Square
+-	Moving window integration
+-	Thresholding 
+The way it works is, it starts by removing the baseline wander and other types of basic noise with a band-pass filter.
+It then uses the fact that R peaks are so tall to its advantage by differentiating; by calculating the change of rate, it allows R peaks to stand out to then move on to the next step which is…
+Squaring every value produces 2 primary outcomes, makes everything positive, but also makes the big values even bigger while keeping the smaller values still relatively small.
+Moving window integration smooths out the graph; by having one bump per heartbeat, it makes it easier to detect the peaks more consistently.
+Finally, by setting a threshold, it can remember any value over a specific value to be flagged as a QRS complex, but this usually uses a “refractory” number which is like a cooldown of 200ms since a heartbeat cant beat that fast.
